@@ -1,0 +1,25 @@
+{
+  "name": "final-project",
+  "version": "1.0.0",
+  "description": "Group project at DecodeMTL JS101",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spasiu/js101-Sept-2016.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/spasiu/js101-Sept-2016/issues"
+  },
+  "homepage": "https://github.com/spasiu/js101-Sept-2016#readme",
+  "dependencies": {
+    "body-parser": "1.15.2",
+    "express": "4.14.0",
+    "smooch-core": "2.1.1",
+    "superagent": "2.3.0"
+  }
+}
