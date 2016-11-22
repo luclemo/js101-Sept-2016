@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="signin-form">
+    <input placeholder "Username" type="text" id="username">
+    <input placeholder "Password" type="text" id="password">
+    <button id="signin">Sign in</button>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/superagent/2.3.0/superagent.min.js"></script>
+  <script>
+    var token = '';
+    var signInButton = document.getElementById('signin');
+    signInButton.addEventListener('click', function() {
+      var url = '/signin';
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      superagent
+        .post(url)
+        .send({
+          username: username,
+          password: password
+        })
+        .end(function(err, res) {
+          if (err) {
+            return console.log (err);
+          }
+          if (res.body.success) {
+            token = res.body.token;
+          } else {
+            alert("Your username or password does not match.");
+          }
+        })
+
+    });
+  </script>
+</body>
+</html>
