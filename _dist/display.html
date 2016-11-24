@@ -6,27 +6,104 @@
 </head>
 <body>
 
-	<ul id="messages-list">
-		<li id="message-item" class="message-item">
-			<div id="avatar-container" class="avatar-container">
-				<img src="http://kayaksylvainbedard.com/wp-content/uploads/2013/03/test-llemon.jpg" alt="" id="avatar" class="avatar">
-			</div>
-			<div id="message-content" class="message-content">
-				<header id="message-header" class="message-header">
-					<span id="message-author" class="message-author">Lucas Lemonnier</span>
-					<span id="message-date" class="message-date">November 21st</span>
-					<span id="message-time" class="message-time">5:30pm</span>
-				</header>
-				<div id="message-body" class="message-body">
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime nostrum quisquam omnis doloribus labore. Expedita.
-				</div>
-			</div>
-		</li>
-	</ul>
+	<ul id="messages-list"></ul>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/superagent/2.3.0/superagent.min.js"></script>
-  <script src="https://cdn.smooch.io/smooch.min.js"></script>
-  <script>Smooch.init({ appToken: 'aui9tifw6a05xbwrpvyggh0wm' });</script>
+  <!-- <script src="https://cdn.smooch.io/smooch.min.js"></script> -->
+  <!-- <script>Smooch.init({ appToken: 'aui9tifw6a05xbwrpvyggh0wm' });</script> -->
+
+  <script>
+  	function displayMessages() {
+  		superagent
+  			.get('/')
+  			.end(function (err, res) {
+
+  				const messagesArray = res.body.messages;
+  				// console.log(messagesArray);
+  				const messagesList = document.getElementById('messages-list'); 
+
+
+  				messagesArray.forEach(function(e){
+
+	  				let avatar = e.avatarUrl;
+	  				let author = e.name;
+	  				let text = e.text;
+	  				let timeStamp = e.received;
+
+	  				// get hours and mins from timestamp
+	  				timeStamp = new Date(timeStamp * 1000);
+	  				let ext = 'PM';
+	  				let hours = timeStamp.getHours();
+	  				let mins = timeStamp.getMinutes(); 
+	  				
+	  				if (hours < 12) {
+	  					ext = 'AM';
+	  				}
+	  				
+	  				let time = timeStamp.getHours() + ":" + timeStamp.getMinutes() + ' ' + ext;
+	  				// console.log(time);
+
+
+	  				// turn data into strings
+	  				author = document.createTextNode(author);
+	  				text = document.createTextNode(text);
+	  				time = document.createTextNode(time);
+
+	  				// Create markup -------------------
+	  				let li = document.createElement('li');
+	  				li.setAttribute('class', 'message-item');
+	  				li.setAttribute('id', 'message-item');
+
+	  				let avatarContainer = document.createElement('div');
+	  				avatarContainer.setAttribute('class', 'avatar-container');
+	  				avatarContainer.setAttribute('id', 'avatar-container');
+	  				
+	  				let avatarImg = document.createElement('img');
+	  				avatarImg.setAttribute('class', 'avatar');
+	  				avatarImg.setAttribute('id', 'avatar');
+	  				avatarImg.setAttribute('alt', 'avatar');
+	  				avatarImg.setAttribute('src', avatar);
+
+	  				let messageContent = document.createElement('div');
+	  				messageContent.setAttribute('class', 'message-content');
+	  				messageContent.setAttribute('id', 'message-content');
+	  				
+	  				let messageHeader = document.createElement('header');
+	  				messageHeader.setAttribute('class', 'message-header');
+	  				messageHeader.setAttribute('id', 'message-header');
+	  				
+	  				let messageAuthor = document.createElement('span');
+	  				messageAuthor.setAttribute('class', 'message-author');
+	  				messageAuthor.setAttribute('id', 'message-author');
+	  				
+	  				let messageTime = document.createElement('span');
+	  				messageTime.setAttribute('class', 'message-time');
+	  				messageTime.setAttribute('id', 'message-time');
+	  				
+	  				let messageBody = document.createElement('div');
+	  				messageBody.setAttribute('class', 'message-body');
+	  				messageBody.setAttribute('id', 'message-body');
+
+
+	  				// Get it all on the page
+	  				messageBody.appendChild(text);
+	  				messageAuthor.appendChild(author);
+	  				messageTime.appendChild(time);
+	  				avatarContainer.appendChild(avatarImg);
+	  				messageHeader.appendChild(messageAuthor);
+	  				messageHeader.appendChild(messageTime);
+	  				messageContent.appendChild(messageHeader);
+	  				messageContent.appendChild(messageBody);
+	  				messagesList.appendChild(messageContent);
+	  				messagesList.appendChild(li);
+	  				li.appendChild(avatarContainer);
+	  				li.appendChild(messageContent);
+  				})
+  					  				
+  			})
+  	}
+  	displayMessages();
+  </script>
 
 </body>
 </html>
