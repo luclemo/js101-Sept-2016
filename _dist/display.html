@@ -13,16 +13,21 @@
   <!-- <script>Smooch.init({ appToken: 'aui9tifw6a05xbwrpvyggh0wm' });</script> -->
 
   <script>
+
+  	setInterval(displayMessages, 1000);
+		
+		let index = 0;  				
+		const messagesList = document.getElementById('messages-list'); 
+
   	function displayMessages() {
   		superagent
   			.get('/')
   			.end(function (err, res) {
 
-  				const messagesArray = res.body.messages;
-  				// console.log(messagesArray);
-  				const messagesList = document.getElementById('messages-list'); 
-
-
+  				const arrayLength = res.body.messages.length;
+  				const messagesArray = res.body.messages.slice(index);
+  				index = arrayLength;
+  				  				
   				messagesArray.forEach(function(e){
 
 	  				let avatar = e.avatarUrl;
@@ -41,8 +46,6 @@
 	  				}
 	  				
 	  				let time = timeStamp.getHours() + ":" + timeStamp.getMinutes() + ' ' + ext;
-	  				// console.log(time);
-
 
 	  				// turn data into strings
 	  				author = document.createTextNode(author);
@@ -99,10 +102,9 @@
 	  				li.appendChild(avatarContainer);
 	  				li.appendChild(messageContent);
   				})
-  					  				
+  				   					
   			})
   	}
-  	displayMessages();
   </script>
 
 </body>
